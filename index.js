@@ -5,12 +5,12 @@ $(document).ready(function() {
     var color = d3.scaleLinear().domain([0, 3000]).range(["#090", "#f00"]);
 
     // variables to display Taiwan map
-    var width = 300,
+    var width = 350,
         height = 450;
-    var svg = d3.select("body").selectAll("div[name='info_div']").append("svg")
-        .attr("width", width)
+    var svg = d3.select("body").selectAll("div[name='info_div']").select("div.row").append("svg")
+        .attr("width", "100%")
         .attr("height", height)
-        .attr("viewBox", "0, 0, 350, 450");
+        .attr("viewBox", "0, 0, " + width + ", " + height);
     var path = d3.geoPath().projection( // path generator
         d3.geoMercator().center([124, 24]).scale(4500) // coordinate translate function
     );
@@ -48,7 +48,7 @@ $(document).ready(function() {
             features[i].properties.nursing_house = total_staff_data[features[i].properties.COUNTYNAME];
         }
 
-        display_nursing_house();
+        $('#loading').hide();
     });
 
     function display_aged_map() {
@@ -63,7 +63,7 @@ $(document).ready(function() {
     }
 
     function display_nursing_house(){
-        d3.select($("div[name='info_div']")[1]).select("svg").selectAll("path").data(features)
+        d3.select("svg").selectAll("path").data(features)
             .attr("d", path)
             .attr("fill", function(d) {
                 return color(d.properties.nursing_house);
@@ -100,9 +100,10 @@ $(document).ready(function() {
             .value(function(d) {console.log(d.properties.old_people);return d.properties.old_people * 100});
 
         var pie_svg = d3.select("div[name='pie_div']").select("div.row").append("svg")
-            .attr("width", pie_width + 100)
+            .attr("width", "100%")
             .attr("height", pie_height + 100)
-            .attr("transform", "translate(" + (pie_width + 100)/2 + ", " + (pie_height + 100)/2 + ")");
+            .attr("transform", "translate(" + (pie_width + 100)/2 + ", " + (pie_height + 100)/2 + ")")
+            .attr("viewBox", "0, 0, " + (pie_width + 100) + ", " + (pie_height + 100));
 
         var g = pie_svg.selectAll(".arc")
             .data(pie(features))
@@ -120,4 +121,20 @@ $(document).ready(function() {
 	        .attr('text-anchor','middle')
             .text(function(d) {return d.data.properties.COUNTYNAME})
     }
+
+    $("button[name='aged']").on("click", function(e){
+        e.preventDefault();
+
+        $(this).addClass("active").attr("disabled", true);
+        $("button[name='house']").addClass("active").attr("disabled", false);
+        display_aged_map();
+    })
+
+    $("button[name='house']").on("click", function(e){
+        e.preventDefault();
+
+        $(this).addClass("active").attr("disabled", true);
+        $("button[name='aged']").addClass("active").attr("disabled", false);
+        display_nursing_house();
+    })
 });
