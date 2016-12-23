@@ -3,10 +3,19 @@ $(document).ready(function() {
     var features = topojson.feature(mapdata, mapdata.objects["map"]).features;
 
     var color = d3.scaleLinear().domain([0, 3000]).range(["#090", "#f00"]);
+    var pie_color = d3.scaleOrdinal()
+        .domain(features.map(function(d) {return d.properties.COUNTYNAME}))
+        .range(["#0a72ff", "#1eff06", "#ff1902", "#2dfefe",
+                "#827c01", "#fe07a6", "#a8879f", "#fcff04",
+                "#c602fe", "#16be61", "#ff9569", "#05b3ff",
+                "#ecffa7", "#3f8670", "#e992ff", "#ffb209",
+                "#e72955", "#83bf02", "#bba67b", "#fe7eb1",
+                "#7570c1", "#85bfd1"]);
+    var width = 350, height = 500;
+    var pie_width = 170, pie_height = 170;
+    var outer_radius = pie_width/2, inner_radius = 0;
 
-    // variables to display Taiwan map
-    var width = 350,
-        height = 450;
+    // display Taiwan map
     var svg = d3.select("body").selectAll("div[name='info_div']").select("div.row").append("svg")
         .attr("width", "100%")
         .attr("height", height)
@@ -48,6 +57,7 @@ $(document).ready(function() {
             features[i].properties.nursing_house = total_staff_data[features[i].properties.COUNTYNAME];
         }
 
+        display_house_pie();
         $('#loading').hide();
     });
 
@@ -74,32 +84,28 @@ $(document).ready(function() {
     }
 
     function display_county_cond(d) {
-        $("#county_name").text(d.properties.COUNTYNAME);
+        if($("button[name='aged']").hasClass("active")){
+            $("div[name='info']").css("color", color(d.properties.old_people * 100));
+        }
+        else{
+            $("div[name='info']").css("color", color(d.properties.nursing_house));
+        }
+
+        $("#county_name").find("h3").text(d.properties.COUNTYNAME);
         $("#old_people").text(d.properties.old_people);
         $("#nursing_house").text(d.properties.nursing_house);
     }
 
     // pie chart setup
     function display_aged_pie(){
-        var pie_color = d3.scaleOrdinal()
-            .domain(features.map(function(d) {return d.properties.COUNTYNAME}))
-            .range(["#0a72ff", "#1eff06", "#ff1902", "#2dfefe",
-                    "#827c01", "#fe07a6", "#a8879f", "#fcff04",
-                    "#c602fe", "#16be61", "#ff9569", "#05b3ff",
-                    "#ecffa7", "#3f8670", "#e992ff", "#ffb209",
-                    "#e72955", "#83bf02", "#bba67b", "#fe7eb1",
-                    "#7570c1", "#85bfd1"]);
-        var pie_width = 200, pie_height = 200;
-        var outer_radius = pie_width/2, inner_radius = 0;
-
         var arc = d3.arc().innerRadius(inner_radius).outerRadius(outer_radius);
         var label_arc = d3.arc().innerRadius(outer_radius - 5).outerRadius(outer_radius + 50);
 
         var pie = d3.pie()
             .sort(null)
-            .value(function(d) {console.log(d.properties.old_people);return d.properties.old_people * 100});
+            .value(function(d) {return d.properties.old_people * 100});
 
-        var pie_svg = d3.select("div[name='pie_div']").select("div.row").append("svg")
+        var pie_svg = d3.select("div[name='pie_div']").select("div.row[name='aged']").append("svg")
             .attr("width", "100%")
             .attr("height", pie_height + 100)
             .attr("transform", "translate(" + (pie_width + 100)/2 + ", " + (pie_height + 100)/2 + ")")
@@ -122,19 +128,50 @@ $(document).ready(function() {
             .text(function(d) {return d.data.properties.COUNTYNAME})
     }
 
+    function display_house_pie(){
+        var arc = d3.arc().innerRadius(inner_radius).outerRadius(outer_radius);
+        var label_arc = d3.arc().innerRadius(outer_radius - 5).outerRadius(outer_radius + 50);
+
+        var pie = d3.pie()
+            .sort(null)
+            .value(function(d) {return d.properties.nursing_house});
+
+        var pie_svg = d3.select("div[name='pie_div']").select("div.row[name='house']").append("svg")
+            .attr("width", "100%")
+            .attr("height", pie_height + 100)
+            .attr("transform", "translate(" + (pie_width + 100)/2 + ", " + (pie_height + 100)/2 + ")")
+            .attr("viewBox", "0, 0, " + (pie_width + 100) + ", " + (pie_height + 100));
+
+        var g = pie_svg.selectAll(".arc")
+            .data(pie(features))
+            .enter().append("g")
+            .attr("class", "arc");
+        g.append("path")
+            .attr("d", arc)
+            .attr("fill", function(d) {return pie_color(d.data.properties.COUNTYNAME)});
+        g.append("text")
+            .attr("transform", function(d) {
+                var mid_angle = d.endAngle < Math.PI ? d.startAngle/2 + d.endAngle/2 : d.startAngle/2  + d.endAngle/2 + Math.PI;
+                return "translate(" + label_arc.centroid(d) + ") rotate(-90) rotate(" + (mid_angle * 180/Math.PI) + ")";
+            })
+            .attr("dy", ".35em")
+	        .attr('text-anchor','middle')
+            .text(function(d) {return (d.data.properties.nursing_house > 100) ? d.data.properties.COUNTYNAME : ""})
+    }
+
     $("button[name='aged']").on("click", function(e){
         e.preventDefault();
 
         $(this).addClass("active").attr("disabled", true);
-        $("button[name='house']").addClass("active").attr("disabled", false);
+        $("button[name='house']").removeClass("active").attr("disabled", false);
         display_aged_map();
-    })
+    }).trigger("click");
 
     $("button[name='house']").on("click", function(e){
         e.preventDefault();
 
         $(this).addClass("active").attr("disabled", true);
-        $("button[name='aged']").addClass("active").attr("disabled", false);
+        $("button[name='aged']").removeClass("active").attr("disabled", false);
         display_nursing_house();
-    })
+    });
 });

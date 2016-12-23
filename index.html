@@ -16,7 +16,7 @@
     <script type="text/javascript" src="https://d3js.org/d3.v4.min.js"></script>
     <script type="text/javascript" src="http://d3js.org/topojson.v1.min.js"></script>
     <script type="text/javascript" src="taiwan.js"></script>
-    <script type="text/javascript" src="index.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
 
 </head>
 
@@ -33,18 +33,27 @@
         <div class="row">
             <div name="info_div" class="col-md-6">
                 <div class="row"></div>
+                <div class="row" name="info">
+                    <div class="" id="county_name">
+                        <h3></h3>
+                    </div>
+                    <p>
+                        <span>老年人口依賴比：</span><soan id="old_people"></soan>
+                    </p>
+                    <p>
+                        <span>養護機構數量：</span><span id="nursing_house"></span>
+                    </p>
+                </div>
                 <div class="row">
                     <button type="button" name="aged" class="btn btn-primary col-md-6 active" disabled="disabled">老年人口依賴比</button>
                     <button type="button" name="house" class="btn btn-primary col-md-6">養護機構分佈</button>
                 </div>
             </div>
             <div name="pie_div" class="col-md-6">
-                <div class="row"></div>
-                <div class="row">
-                    <div class="" id="county_name"></div>
-                    <div class="" id="old_people"></div>
-                    <div class="" id="nursing_house"></div>
-                </div>
+                <h3 align="center">老年人口依賴比</h3>
+                <div class="row" name="aged"></div>
+                <h3 align="center">養護機構數量<small>連江縣與金門縣數量 < 100</small></h3>
+                <div class="row" name="house"></div>
             </div>
         </div>
     </div>
