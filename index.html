@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Aged society</title>
+    <title>103 Aged society</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
@@ -14,8 +14,7 @@
     <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://d3js.org/d3.v4.min.js"></script>
-    <script type="text/javascript" src="http://d3js.org/topojson.v1.min.js"></script>
-    <script type="text/javascript" src="taiwan.js"></script>
+    <script src="https://d3js.org/topojson.v2.min.js"></script>
     <script type="text/javascript" src="js/index.js"></script>
 
 </head>
@@ -29,31 +28,31 @@
         </div>
     </div>
 
-    <div class="container">
+    <div class="container main">
         <div class="row">
             <div name="info_div" class="col-md-6">
-                <div class="row"></div>
+                <div class="row" style="height: 70vh"></div>
                 <div class="row" name="info">
-                    <div class="" id="county_name">
-                        <h3></h3>
-                    </div>
+                    <div class="col-md-offset-8">
+                    <h3 id="county_name">縣市</h3>
                     <p>
                         <span>老年人口依賴比：</span><soan id="old_people"></soan>
                     </p>
                     <p>
                         <span>安養機構工作人員數量：</span><span id="nursing_house"></span>
                     </p>
+                    </div>
                 </div>
                 <div class="row">
-                    <button type="button" name="aged" class="btn btn-primary col-md-6 active" disabled="disabled">老年人口依賴比</button>
-                    <button type="button" name="house" class="btn btn-primary col-md-6">安養機構工作人員分佈</button>
+                    <button type="button" name="aged" class="btn btn-primary col-md-offset-2 col-md-4 active" disabled="disabled">老年人口依賴比</button>
+                    <button type="button" name="house" class="btn btn-primary col-md-4">安養機構工作人員分佈</button>
                 </div>
             </div>
             <div name="pie_div" class="col-md-6">
                 <h3 align="center">老年人口依賴比</h3>
-                <div class="row" name="aged"></div>
+                <div class="row" name="aged" style="height: 40vh"></div>
                 <h3 align="center">安養機構工作人員數量<small>連江縣與金門縣數量 < 100</small></h3>
-                <div class="row" name="house"></div>
+                <div class="row" name="house" style="height: 40vh"></div>
             </div>
         </div>
     </div>
