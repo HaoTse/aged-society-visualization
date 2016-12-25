@@ -83,10 +83,11 @@ $(document).ready(function() {
                     return color(d.properties.old_people * 100);
                 })
                 .attr("id", function(d) {
-                    return d.properties.COUNTYNAME + "_map";
+                    return d.properties.COUNTYNAME.replace(" ", "") + "_map";
                 })
                 .on("mouseover", function(d) {
                     display_county_cond(d);
+                    d3.select(this).style('fill-opacity', 0.3);
                 })
                 .on("mouseenter", function(d) {
                     $("#" + d.properties.COUNTYNAME + "_house_pie").triggerSVGEvent('mouseenter');
@@ -244,7 +245,7 @@ $(document).ready(function() {
                     return "translate(" + label_arc_over.centroid(d) + ") rotate(-90) rotate(" + (mid_angle * 180 / Math.PI) + ")";
                 });
 
-
+            d3.select("#" + d.data.properties.COUNTYNAME + "_map").style('fill-opacity', 0.3);
             display_county_cond(d.data);
         }
 
@@ -272,6 +273,8 @@ $(document).ready(function() {
                     var mid_angle = d.endAngle < Math.PI ? d.startAngle / 2 + d.endAngle / 2 : d.startAngle / 2 + d.endAngle / 2 + Math.PI;
                     return "translate(" + label_arc.centroid(d) + ") rotate(-90) rotate(" + (mid_angle * 180 / Math.PI) + ")";
                 });
+
+            d3.select("#" + d.data.properties.COUNTYNAME + "_map").style('fill-opacity', 1);
         }
 
         $.fn.triggerSVGEvent = function(eventName) {
