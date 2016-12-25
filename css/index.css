@@ -7,9 +7,13 @@ html, body{
     width: 100vw;
 }
 
-.second_div {
-    height: 100%;
-    width: 100%;
+#text_div {
+    top: 30%;
+    right: 45%;
+    position: absolute;
+    display: block;
+    z-index: 9;
+    text-align: center;
 }
 
 #loading {

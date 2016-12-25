@@ -219,12 +219,12 @@ $(document).ready(function() {
             d3.select("#" + d.data.properties.COUNTYNAME + "_house_pie")
                 .attr("stroke", "white")
                 .transition()
-                .duration(1000)
+                .duration(100)
                 .attr("d", arc_over)
                 .attr("stroke-width", 3);
             d3.select("#" + d.data.properties.COUNTYNAME + "_house_pie_text")
                 .transition()
-                .duration(1000)
+                .duration(100)
                 .attr("transform", function(d) {
                     var mid_angle = d.endAngle < Math.PI ? d.startAngle / 2 + d.endAngle / 2 : d.startAngle / 2 + d.endAngle / 2 + Math.PI;
                     return "translate(" + label_arc_over.centroid(d) + ") rotate(-90) rotate(" + (mid_angle * 180 / Math.PI) + ")";
@@ -233,12 +233,12 @@ $(document).ready(function() {
             d3.select("#" + d.data.properties.COUNTYNAME + "_aged_pie")
                 .attr("stroke", "white")
                 .transition()
-                .duration(1000)
+                .duration(100)
                 .attr("d", arc_over)
                 .attr("stroke-width", 3);
             d3.select("#" + d.data.properties.COUNTYNAME + "_aged_pie_text")
                 .transition()
-                .duration(1000)
+                .duration(100)
                 .attr("transform", function(d) {
                     var mid_angle = d.endAngle < Math.PI ? d.startAngle / 2 + d.endAngle / 2 : d.startAngle / 2 + d.endAngle / 2 + Math.PI;
                     return "translate(" + label_arc_over.centroid(d) + ") rotate(-90) rotate(" + (mid_angle * 180 / Math.PI) + ")";
@@ -255,7 +255,7 @@ $(document).ready(function() {
                 .attr("stroke", "none");
             d3.select("#" + d.data.properties.COUNTYNAME + "_house_pie_text")
                 .transition()
-                .duration(1000)
+                .duration(100)
                 .attr("transform", function(d) {
                     var mid_angle = d.endAngle < Math.PI ? d.startAngle / 2 + d.endAngle / 2 : d.startAngle / 2 + d.endAngle / 2 + Math.PI;
                     return "translate(" + label_arc.centroid(d) + ") rotate(-90) rotate(" + (mid_angle * 180 / Math.PI) + ")";
@@ -267,7 +267,7 @@ $(document).ready(function() {
                 .attr("stroke", "none");
             d3.select("#" + d.data.properties.COUNTYNAME + "_aged_pie_text")
                 .transition()
-                .duration(1000)
+                .duration(100)
                 .attr("transform", function(d) {
                     var mid_angle = d.endAngle < Math.PI ? d.startAngle / 2 + d.endAngle / 2 : d.startAngle / 2 + d.endAngle / 2 + Math.PI;
                     return "translate(" + label_arc.centroid(d) + ") rotate(-90) rotate(" + (mid_angle * 180 / Math.PI) + ")";
