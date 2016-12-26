@@ -43,6 +43,33 @@ $(document).ready(function() {
             .enter().append("path")
             .attr("d", path);
 
+        // setup the color definition of map
+        var defs = svg.append("defs");
+        var linear_gradient = defs.append("linearGradient")
+                                .attr("id", "linearColor");
+        linear_gradient.append("stop")
+                    .attr("offset", "0%")
+                    .style("stop-color", "#090");
+        linear_gradient.append("stop")
+                    .attr("offset", "100%")
+                    .style("stop-color", "#f00");
+        svg.append("rect")
+            .attr("width", "25%")
+            .attr("height", "20")
+            .attr("x", 0)
+            .attr("y", "85%")
+            .style("fill", "url(#" + linear_gradient.attr("id") + ")");
+        svg.append("text")
+            .attr("x", "0")
+            .attr("y", "84%")
+            .attr('text-anchor', 'middle')
+            .text("low");
+        svg.append("text")
+            .attr("x", "25%")
+            .attr("y", "84%")
+            .attr('text-anchor', 'middle')
+            .text("high");
+
         // parse data
         d3.text("data.csv", function(data) {
             var new_data = data.slice(data.indexOf("\n") + 1);
